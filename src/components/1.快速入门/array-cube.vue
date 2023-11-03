@@ -48,7 +48,7 @@ scene.add(ambientLight);
 const width = window.innerWidth;
 const height = window.innerHeight; 
 
-const camera = new THREE.PerspectiveCamera(30, width / height, 10, 30000);
+const camera = new THREE.PerspectiveCamera(30, width / height, 10, 3000);
 camera.position.set(6000, 500, 2000);
 camera.lookAt(2500, 0, 0);  
 
