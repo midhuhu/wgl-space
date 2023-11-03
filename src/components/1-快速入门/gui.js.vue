@@ -57,7 +57,7 @@ const camera = new THREE.PerspectiveCamera(30, width / height, 1, 10000)
 camera.position.set(800, 800, 800);
 camera.lookAt(0, 0, 0);  
 // 辅助相机s
-const camera1 = new THREE.PerspectiveCamera(30, width / height, 500, 2000)
+const camera1 = new THREE.PerspectiveCamera(30, width / height, 1000, 2000)
 camera1.position.set(800, 800, 800);
 camera1.lookAt(0, 0, 0);
 
