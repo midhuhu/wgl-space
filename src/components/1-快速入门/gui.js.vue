@@ -1,7 +1,7 @@
 <template></template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, computed } from 'vue';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
@@ -51,10 +51,26 @@ scene.add(pointLight);
 const width = window.innerWidth;
 const height = window.innerHeight; 
 
-const camera = new THREE.PerspectiveCamera(30, width / height, 10, 10000);
+
+// 相机
+const camera = new THREE.PerspectiveCamera(30, width / height, 1, 10000)
 camera.position.set(800, 800, 800);
 camera.lookAt(0, 0, 0);  
+// 辅助相机s
+const camera1 = new THREE.PerspectiveCamera(30, width / height, 500, 2000)
+camera1.position.set(800, 800, 800);
+camera1.lookAt(0, 0, 0);
 
+const cameraControls = {
+    helper: '辅相机',
+    visual: '主相机'
+}
+// 相机辅助线
+const cameraHelper = new THREE.CameraHelper(camera);
+const cameraHelper1 = new THREE.CameraHelper(camera1);
+scene.add(cameraHelper1);
+
+// 视图
 const renderer = new THREE.WebGLRenderer({
     antialias:true,     // 锯齿模糊
 });
@@ -67,14 +83,28 @@ scene.add(axesHelper);
 const pointLightHelper = new THREE.PointLightHelper(pointLight, 10);
 scene.add(pointLightHelper);
 
+
 new OrbitControls(camera, renderer.domElement);
+
 
 // 实例化一个gui对象
 const gui = new GUI();
-gui.close()
+// gui.close()
 
 gui.domElement.style.right = '0px';
 gui.domElement.style.width = '300px';
+
+const cameraFolder = gui.addFolder('相机');
+cameraFolder.add(cameraControls, 'helper', ['主相机', '辅相机']).name('辅助线').onChange(function(value){
+    if (value === '主相机') {
+        scene.add(cameraHelper);
+        scene.remove(cameraHelper1)
+    } else {
+        scene.add(cameraHelper1);
+        scene.remove(cameraHelper)
+    }
+});
+cameraFolder.add(cameraControls, 'visual', ['主相机', '辅相机']).name('视角')
 
 /**
  * 分组1
@@ -151,7 +181,7 @@ pointLightFolder.add(pointLight.position, 'z', -3000, 3000).name('点光源z').s
 
 // 渲染函数
 function render() {
-    renderer.render(scene, camera);
+    renderer.render(scene, cameraControls.visual === '主相机' ? camera : camera1);
     mesh2Style.rotate && mesh2.rotateZ(0.01);
     requestAnimationFrame(render);
 }
@@ -161,6 +191,8 @@ window.onresize = function () {
     renderer.setSize(window.innerWidth, window.innerHeight);
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
+    camera1.aspect = window.innerWidth / window.innerHeight;
+    camera1.updateProjectionMatrix();
 };
 
 
