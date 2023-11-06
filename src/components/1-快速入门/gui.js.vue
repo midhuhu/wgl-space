@@ -14,6 +14,7 @@ const material = new THREE.MeshPhongMaterial({
     side: THREE.DoubleSide,
     shininess: 20,  //高光部分的亮度，默认30
     specular: 0x555555, //高光部分的颜色
+    wireframe:true,
 });
 
 // 创建平面
@@ -35,6 +36,9 @@ const geometry2 = new THREE.CylinderGeometry(50,50,100);
 const mesh2 = new THREE.Mesh(geometry2, material); //网格模型对象Mesh
 mesh2.position.set(0, 50, 200);
 scene.add(mesh2); //网格模型添加到场景中  
+console.log('几何体',geometry2);
+console.log('顶点位置数据',geometry2.attributes.position);
+console.log('顶点索引数据',geometry2.index);
 
 // 长方体
 const geometry3 = new THREE.BoxGeometry(100, 100, 100);
