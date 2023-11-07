@@ -6,17 +6,16 @@ import * as THREE from 'three';
 import Stats from 'three/addons/libs/stats.module.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-
-const scene = new THREE.Scene();   
+const scene = new THREE.Scene();
 
 const geometry = new THREE.SphereGeometry(100, 100, 100);
 //材质对象Material
 const material = new THREE.MeshLambertMaterial({
     color: 0x00ffff, //设置材质颜色
-    transparent: true,//开启透明
-    opacity: 0.5,//设置透明度
+    transparent: true, //开启透明
+    opacity: 0.5, //设置透明度
 });
-const meshList = []
+const meshList = [];
 // for (let i = 0; i < 9; i++) {
 //     const mesh = new THREE.Mesh(geometry, material); //网格模型对象Mesh
 //     // 沿着x轴分布
@@ -36,8 +35,8 @@ for (let i = 0; i < 10; i++) {
         const mesh = new THREE.Mesh(geometry, material); //网格模型对象Mesh
         // 在XOZ平面上分布
         mesh.position.set(i * 200, 0, j * 200);
-        meshList.push(mesh)
-        scene.add(mesh); //网格模型添加到场景中  
+        meshList.push(mesh);
+        scene.add(mesh); //网格模型添加到场景中
     }
 }
 
@@ -46,19 +45,19 @@ ambientLight.position.set(100, 50, 50);
 scene.add(ambientLight);
 
 const width = window.innerWidth;
-const height = window.innerHeight; 
+const height = window.innerHeight;
 
 const camera = new THREE.PerspectiveCamera(30, width / height, 10, 3000);
 camera.position.set(6000, 500, 2000);
-camera.lookAt(2500, 0, 0);  
+camera.lookAt(2500, 0, 0);
 
 const renderer = new THREE.WebGLRenderer();
-renderer.setSize(width, height);  
+renderer.setSize(width, height);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.addEventListener('change', function () {
     renderer.render(scene, camera); //执行渲染操作
-});//监听鼠标、键盘事件
+}); //监听鼠标、键盘事件
 
 //创建stats对象
 const stats = new Stats();
@@ -80,16 +79,13 @@ window.onresize = function () {
     camera.updateProjectionMatrix();
 };
 
-
 // 实例挂载到页面
 onMounted(() => {
     // 全屏渲染
     document.body.appendChild(renderer.domElement);
     document.body.appendChild(stats.domElement);
     render();
-})
-
+});
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

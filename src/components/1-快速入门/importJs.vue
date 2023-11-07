@@ -3,9 +3,8 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
-import { scene, mesh, camera, renderer } from './demo.js'
-
+import { onMounted } from 'vue';
+import { scene, mesh, camera, renderer } from './demo.js';
 
 // 渲染函数
 function render() {
@@ -21,13 +20,10 @@ window.onresize = function () {
     camera.updateProjectionMatrix();
 };
 
-
 onMounted(() => {
     document.getElementById('wgl').appendChild(renderer.domElement);
-    render()
-})
+    render();
+});
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

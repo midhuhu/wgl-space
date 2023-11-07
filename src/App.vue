@@ -8,13 +8,12 @@ import GuiJs from './components/1-快速入门/gui.js.vue';
 </script>
 
 <template>
-  <!-- <demo /> -->
-  <!-- <array-cube /> -->
-  <!-- <geometry /> -->
-  <gui-js />
-  <!-- <import-js /> -->
-  <!-- <vertex-position /> -->
+    <!-- <demo /> -->
+    <!-- <array-cube /> -->
+    <!-- <geometry /> -->
+    <gui-js />
+    <!-- <import-js /> -->
+    <!-- <vertex-position /> -->
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
