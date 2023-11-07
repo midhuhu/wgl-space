@@ -14,7 +14,7 @@ const material = new THREE.MeshPhongMaterial({
     side: THREE.DoubleSide,
     shininess: 20,  //高光部分的亮度，默认30
     specular: 0x555555, //高光部分的颜色
-    wireframe:true,
+    wireframe: false,//线条模式渲染mesh对应的三角形数据
 });
 
 // 创建平面
@@ -26,7 +26,7 @@ plane.receiveShadow = true; // 接收阴影
 scene.add(plane);
 
 // 圆
-const geometry = new THREE.SphereGeometry(50);
+const geometry = new THREE.SphereGeometry(50, 32, 16);
 const mesh = new THREE.Mesh(geometry, material); //网格模型对象Mesh
 mesh.position.set(100, 50, 0);
 scene.add(mesh); //网格模型添加到场景中
@@ -36,9 +36,10 @@ const geometry2 = new THREE.CylinderGeometry(50,50,100);
 const mesh2 = new THREE.Mesh(geometry2, material); //网格模型对象Mesh
 mesh2.position.set(0, 50, 200);
 scene.add(mesh2); //网格模型添加到场景中  
-console.log('几何体',geometry2);
-console.log('顶点位置数据',geometry2.attributes.position);
-console.log('顶点索引数据',geometry2.index);
+
+// console.log('几何体',geometry2);
+// console.log('顶点位置数据',geometry2.attributes.position);
+// console.log('顶点索引数据',geometry2.index);
 
 // 长方体
 const geometry3 = new THREE.BoxGeometry(100, 100, 100);
@@ -181,6 +182,57 @@ pointLightFolder.add(pointLight, 'intensity', 0, 20).name('点光源强度')
 pointLightFolder.add(pointLight.position, 'x', -3000, 3000).name('点光源x').step(10)
 pointLightFolder.add(pointLight.position, 'y', -3000, 3000).name('点光源y').step(10)
 pointLightFolder.add(pointLight.position, 'z', -3000, 3000).name('点光源z').step(10)
+
+const handleCenter = () => {
+    // 位置重置、设值
+    // translateX.reset();
+    // translateY.reset();
+    // translateZ.reset();
+    translateX.setValue(0)
+    translateY.setValue(0)
+    translateZ.setValue(0)
+    // geometry.center();
+}
+const handle = {
+    scale: 1,
+    translate: {
+        x: 0,
+        y: 0,
+        z: 0,
+    },
+    center: handleCenter
+}
+const handleBack = {
+    scale: 1,
+    translate: {
+        x: 0,
+        y: 0,
+        z: 0,
+    },
+}
+const handleFolder = gui.addFolder('操作')
+handleFolder.close()
+handleFolder.add(handle, 'scale', 0.1, 5).name('球形缩放').step(0.1).onChange(async function(value){
+    // 每次缩放前，先恢复一开始的尺寸
+    await geometry.scale(1/handleBack.scale, 1/handleBack.scale, 1/handleBack.scale);
+    geometry.scale(value, value, value)
+    handleBack.scale = value
+});
+
+const translateX = handleFolder.add(handle.translate, 'x', -100, 100).name('球形平移x').step(1).onChange(function(value){
+    geometry.translate((value - handleBack.translate.x), 0, 0)
+    handleBack.translate.x = value
+});
+const translateY = handleFolder.add(handle.translate, 'y', -100, 100).name('球形平移y').step(1).onChange(function(value){
+    geometry.translate(0, (value - handleBack.translate.y), 0)
+    handleBack.translate.y = value
+});
+const translateZ = handleFolder.add(handle.translate, 'z', -100, 100).name('球形平移z').step(1).onChange(function(value){
+    geometry.translate(0, 0, (value - handleBack.translate.z))
+    handleBack.translate.z = value
+});
+
+handleFolder.add(handle, 'center').name('初始化球形位置')
 
 
 // 渲染函数
