@@ -7,6 +7,7 @@ import Vector3 from './components/3-模型对象材质/vector3.vue';
 import GuiJs from './components/1-快速入门/gui.js.vue';
 import ImportJs from './components/1-快速入门/importJs.vue';
 import VertexPosition from './components/2-几何体BufferGeometry/vertex-position.vue';
+import group from './components/4-层级模型/group.vue';
 </script>
 
 <template>
@@ -17,7 +18,8 @@ import VertexPosition from './components/2-几何体BufferGeometry/vertex-positi
     <!-- <import-js /> -->
     <!-- <vertex-position /> -->
     <!-- <Vector3 /> -->
-    <Model />
+    <!-- <Model /> -->
+    <group />
 </template>
 
 <style scoped></style>
